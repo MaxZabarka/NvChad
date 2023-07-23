@@ -1,7 +1,72 @@
 local plugins = {
   {
-    "puremourning/vimspector",
-    lazy = false
+    "caenrique/nvim-maximize-window-toggle",
+    lazy = false,
+  },
+  {
+    "nvim-zh/colorful-winsep.nvim",
+    -- config = {
+    --   highlight = {
+    --     fg = "red",
+    --     bg = "blue"
+    --   }
+    -- },
+    config = true,
+    event = { "WinNew" },
+  },
+  {
+    -- "/home/max/Documents/test-nvim-plugin",
+    dir = "/home/max/Documents/test-nvim-plugin",
+    lazy = false,
+    dev = true,
+  },
+  { "folke/neodev.nvim", opts = {} },
+  {
+    dependencies = { "nvim-lua/plenary.nvim" },
+    "rest-nvim/rest.nvim",
+    lazy = false,
+    init = function()
+      require("rest-nvim").setup {
+        -- Open request results in a horizontal split
+        result_split_horizontal = true,
+        -- Keep the http file buffer above|left when split horizontal|vertical
+        result_split_in_place = false,
+        skip_ssl_verification = false,
+        -- Encode URL before making request
+        encode_url = true,
+        -- Highlight request on run
+        highlight = {
+          enabled = true,
+          timeout = 150,
+        },
+        result = {
+          -- toggle showing URL, HTTP info, headers at top the of result window
+          show_url = true,
+          -- show the generated curl command in case you want to launch
+          -- the same request via the terminal (can be verbose)
+          show_curl_command = false,
+          show_http_info = true,
+          show_headers = false,
+          -- executables or functions for formatting response body [optional]
+          -- set them to false if you want to disable them
+          formatters = {
+            json = "jq",
+            html = function(body)
+              return vim.fn.system({ "tidy", "-i", "-q", "-" }, body)
+            end,
+          },
+        },
+        -- Jump to request line on run
+        jump_to_request = false,
+        env_file = ".env",
+        custom_dynamic_variables = {},
+        yank_dry_run = true,
+      }
+    end,
+  },
+  {
+    "simrat39/rust-tools.nvim",
+    lazy = false,
   },
   {
     "microsoft/vscode-js-debug",
@@ -12,13 +77,51 @@ local plugins = {
         -- node_path = "node", -- Path of node executable. Defaults to $NODE_PATH, and then "node"
         debugger_path = vim.fn.stdpath "data" .. "/lazy/vscode-js-debug", -- Path to vscode-js-debug installation.
         -- debugger_cmd = { "js-debug-adapter" }, -- Command to use to launch the debug server. Takes precedence over `node_path` and `debugger_path`.
-        adapters = { "node", "chrome", "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" }, -- which adapters to register in nvim-dap
+        adapters = {
+          "node",
+          "chrome",
+          "pwa-node",
+          "pwa-chrome",
+          "pwa-msedge",
+          "node-terminal",
+          "pwa-extensionHost",
+          "lldb",
+        }, -- which adapters to register in nvim-dap
         -- log_file_path = "(stdpath cache)/dap_vscode_js.log" -- Path for file logging
         -- log_file_level = false -- Logging level for output to file. Set to false to disable file logging.
         -- log_console_level = vim.log.levels.ERROR -- Logging level for output to console. Set to false to disable console output.
       }
+      require("dap").adapters.executable = {
+        type = "executable",
+        command = vim.fn.stdpath "data" .. "/mason/bin/codelldb",
+        name = "lldb1",
+        host = "127.0.0.1",
+        port = 13000,
+      }
+      require("dap").configurations.rust = {
+        {
+          name = "Rust debug",
+          type = "codelldb",
+          request = "launch",
+          program = function()
+            return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/target/debug/", "file")
+          end,
+          cwd = "${workspaceFolder}",
+          stopOnEntry = true,
+        },
+      }
+      require("dap").adapters.codelldb = {
+        name = "codelldb server",
+        type = "server",
+        port = "${port}",
+        executable = {
+          command = vim.fn.stdpath "data" .. "/mason/bin/codelldb",
+          args = { "--port", "${port}" },
+        },
+      }
       for _, language in ipairs { "typescript", "javascript", "typescriptreact" } do
         require("dap").configurations[language] = {
+
           {
             type = "pwa-node",
             request = "launch",
@@ -47,17 +150,17 @@ local plugins = {
             command = "npm run dev",
             cwd = "${workspaceFolder}",
           },
-           {
+          {
             type = "pwa-node",
             request = "launch",
             name = "Launch via NPM",
             runtimeExecutable = "npm",
             runtimeArgs = {
-                "run-script",
-                "dev"
+              "run-script",
+              "dev",
             },
-            cwd= "${workspaceFolder}"
-        },
+            cwd = "${workspaceFolder}",
+          },
         }
       end
     end,
@@ -74,13 +177,14 @@ local plugins = {
     "Pocco81/dap-buddy.nvim",
     lazy = false,
   },
-  -- {
-  --   "rcarriga/nvim-dap-ui",
-  --   lazy = false,
-  --   init = function()
-  --     require("dapui").setup()
-  --   end,
-  -- },
+  {
+    "rcarriga/nvim-dap-ui",
+    lazy = false,
+    init = function()
+      require("dapui").setup()
+      require("dap.ext.vscode").load_launchjs(nil, {})
+    end,
+  },
   {
     "theHamsta/nvim-dap-virtual-text",
     lazy = false,
@@ -104,7 +208,7 @@ local plugins = {
     "github/copilot.vim",
     init = function()
       vim.g.copilot_assume_mapped = true
-      vim.g.copilot_filetypes = { dapui_watches = false}
+      vim.g.copilot_filetypes = { dapui_watches = false }
     end,
     lazy = false,
   },

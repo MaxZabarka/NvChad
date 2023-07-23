@@ -8,6 +8,14 @@ vim.keymap.set("n", "<leader>do", "<cmd>lua require('dap').step_out()<CR>")
 vim.keymap.set("n", "<leader>ds", "<cmd>lua require('dap').stop()<CR>")
 vim.keymap.set("n", "<leader>dt", "<cmd>lua require(\"dapui\").toggle()<CR>")
 
+vim.keymap.set("n", "<leader>u", "<Plug>RestNvim");
+
+
+-- Run prev commands
+vim.api.nvim_set_keymap("n", "<leader>;", "@:", { noremap = true });
+
+-- Toggle maximize
+vim.keymap.set("n", "<leader>m", ":ToggleOnly<CR>", { silent = true, noremap = true })
 
 -- vim.keymap.set("n", "<F4>", "<cmd>lua require('dapui').toggle()<CR>")
 -- vim.keymap.set("n", "<F5>", "<cmd>lua require('dap').toggle_breakpoint()<CR>")
