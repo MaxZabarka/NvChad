@@ -1,22 +1,24 @@
 local on_attach = require("plugins.configs.lspconfig").on_attach
 local capabilities = require("plugins.configs.lspconfig").capabilities
+
 local lspconfig = require "lspconfig"
 
-local servers = { "rust_analyzer", "lua_ls", "tsserver", "eslint" }
+-- rust-tools will set up rust,no need to put it here
+local servers = { "tsserver", "eslint" }
 
-local new_on_attach = function(client, bufnr)
-  local opts = { buffer = bufnr, remap = false }
-  vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-  on_attach(client, bufnr)
-end
+-- local new_on_attach = function(client, bufnr)
+--   local opts = { buffer = bufnr, remap = false }
+--   vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+--   on_attach(client, bufnr)
+-- end
 
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
-    on_attach = new_on_attach,
+    on_attach = on_attach,
     capabilities = capabilities,
   }
 end
-
+require("rust-tools").setup({server = { on_attach = on_attach }})
 -- lspconfig.on_attach(function(client, bufnr)
 --   print "attach"
 -- end)

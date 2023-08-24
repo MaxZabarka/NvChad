@@ -1,0 +1,9 @@
+
+[35mobject[0m Object {
+    a: [35mobject[0m Object {
+        test: [33m"hello"[0m,
+        b: [35mobject[0m Object {
+            c: [33m5[0m,
+        },
+    },
+}

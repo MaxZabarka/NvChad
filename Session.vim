@@ -13,13 +13,28 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +16 ~/.config/nvim/lua/custom/plugins.lua
-badd +3 ~/Documents/ai-chat/src/ask.tsx
+badd +313 ~/.config/nvim/lua/custom/plugins.lua
+badd +22 ~/.config/nvim/lua/custom/remap.lua
+badd +1 health://
+badd +5 ~/.config/nvim/rplugin/python3/main.py
+badd +9 ~/.local/share/nvim/rplugin.vim
+badd +5 ~/Documents/portfolio/src/main.ts
+badd +1 ~/Documents/aoc/d_24/src/main
+badd +13 ~/Documents/aoc/d_24/src/main.rs
+badd +5 ~/.config/nvim/lua/custom/configs/lspconfig.lua
+badd +143 ~/.config/nvim/lua/plugins/init.lua
+badd +2 ~/.config/nvim/lua/plugins/configs/telescope.lua
+badd +1 ~/.config/nvim/lua/custom/configs/telescope.lua
+badd +1 ~/.config/nvim/lua/custom/init.lua
+badd +1 ~/.config/nvim/lua/custom/chadrc.lua
+badd +1 ~/.config/nvim/lua/custom/globals.lua
+badd +1 ~/.config/nvim/lua/custom/test
 argglobal
 %argdel
 $argadd ~/.zshrc
 edit ~/.config/nvim/lua/custom/plugins.lua
 argglobal
+balt ~/.config/nvim/lua/plugins/init.lua
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -30,12 +45,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 16 - ((15 * winheight(0) + 25) / 51)
+let s:l = 2 - ((1 * winheight(0) + 24) / 49)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 16
-normal! 079|
+keepjumps 2
+normal! 03|
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf

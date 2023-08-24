@@ -1,5 +1,46 @@
 local plugins = {
   {
+    "ThePrimeagen/refactoring.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" },
+    lazy = false,
+    config = function()
+      require("refactoring").setup()
+    end,
+  },
+
+  {
+    "LinArcX/telescope-ports.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim", "rcarriga/nvim-notify" },
+    lazy = false,
+    config = function()
+      require("telescope").load_extension "ports"
+    end,
+  },
+  -- {
+  --   "kevinhwang91/nvim-ufo",
+  --   dependencies = "kevinhwang91/promise-async",
+  --   init = function()
+  --     vim.o.foldcolumn = "1" -- '0' is not bad
+  --     vim.o.foldlevel = 0    -- Using ufo provider need a large value, feel free to decrease the value
+  --     vim.o.foldlevelstart = 0
+  --     vim.o.foldenable = false
+  --     --
+  --     local capabilities = vim.lsp.protocol.make_client_capabilities()
+  --     capabilities.textDocument.foldingRange = {
+  --       dynamicRegistration = false,
+  --       lineFoldingOnly = true,
+  --     }
+  --     local language_servers = require("lspconfig").util.available_servers() -- or list servers manually like {'gopls', 'clangd'}
+  --     for _, ls in ipairs(language_servers) do
+  --       require("lspconfig")[ls].setup {
+  --         capabilities = capabilities,
+  --         -- you can add other fields for setting up lsp server in this table
+  --       }
+  --     end
+  --     require("ufo").setup()
+  --   end,
+  -- },
+  {
     "caenrique/nvim-maximize-window-toggle",
     lazy = false,
   },
@@ -20,7 +61,14 @@ local plugins = {
     lazy = false,
     dev = true,
   },
-  { "folke/neodev.nvim", opts = {} },
+  {
+    "folke/neodev.nvim",
+    opts = {},
+    lazy = false,
+    -- init = function()
+    --   require("neodev").setup {}
+    -- end,
+  },
   {
     dependencies = { "nvim-lua/plenary.nvim" },
     "rest-nvim/rest.nvim",
@@ -67,6 +115,16 @@ local plugins = {
   {
     "simrat39/rust-tools.nvim",
     lazy = false,
+    -- init = function()
+    --   require("rust-tools").setup({
+    --     server = {
+    --     --   on_attach = function(_, bufnr)
+    --     --       vim.keymap.set("n", "<leader>K", require("rust-tools.hover_actions").hover_actions, {buffer = bufnr})
+    --     --       vim.keymap.set("n", "<leader>a", require("rust-tools.code_action_group").code_action_group, {buffer = bufnr})
+    --     --   end
+    --     }
+    --   })
+    -- end
   },
   {
     "microsoft/vscode-js-debug",
@@ -291,10 +349,9 @@ local plugins = {
       local null_ls = require "null-ls"
 
       null_ls.setup {
-
         sources = {
           null_ls.builtins.formatting.stylua,
-          null_ls.builtins.formatting.eslint,
+          null_ls.builtins.formatting.prettier,
         },
         -- on_attach = function(client, bufnr)
         --   vim [[autocmd BufWritePost * lua print("hello!")]]
