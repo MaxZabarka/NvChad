@@ -4,7 +4,14 @@ local capabilities = require("plugins.configs.lspconfig").capabilities
 local lspconfig = require "lspconfig"
 
 -- rust-tools will set up rust,no need to put it here
-local servers = { "tsserver", "eslint" }
+local servers = {
+  "tsserver",
+  "eslint",
+  "texlab",
+  -- "jedi_language_server"
+  "pyright",
+  -- "ltex-ls"
+}
 
 -- local new_on_attach = function(client, bufnr)
 --   local opts = { buffer = bufnr, remap = false }
@@ -18,7 +25,7 @@ for _, lsp in ipairs(servers) do
     capabilities = capabilities,
   }
 end
-require("rust-tools").setup({server = { on_attach = on_attach }})
+require("rust-tools").setup { server = { on_attach = on_attach } }
 -- lspconfig.on_attach(function(client, bufnr)
 --   print "attach"
 -- end)

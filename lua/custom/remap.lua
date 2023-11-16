@@ -8,8 +8,27 @@ vim.keymap.set("n", "<leader>do", "<cmd>lua require('dap').step_out()<CR>")
 vim.keymap.set("n", "<leader>ds", "<cmd>lua require('dap').stop()<CR>")
 vim.keymap.set("n", "<leader>dt", '<cmd>lua require("dapui").toggle()<CR>')
 
-vim.keymap.set("n", "<leader>u", "<Plug>RestNvim")
 vim.keymap.set("n", "<leader>ca", "<cmd>lua vim.lsp.buf.code_action()<CR>")
+
+vim.keymap.set("n", "<leader>u", "<Plug>JupyterExecute")
+
+-- unmap tab
+-- vim.cmd("unmap tab")
+vim.g.UltiSnipsExpandTrigger = "<C-r>"
+vim.g.UltiSnipsJumpForwardTrigger = "<C-r>"
+
+-- Magma
+-- vim.api.nvim_set_keymap('n', '<Leader>r', ':MagmaEvaluateOperator<CR>', { noremap = true, silent = true, expr = true })
+-- vim.api.nvim_set_keymap('n', '<Leader>rr', ':MagmaEvaluateLine<CR>', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('x', '<Leader>r', ':<C-u>MagmaEvaluateVisual<CR>', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('n', '<Leader>rc', ':MagmaReevaluateCell<CR>', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('n', '<Leader>rd', ':MagmaDelete<CR>', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('n', '<Leader>ro', ':MagmaShowOutput<CR>', { noremap = true, silent = true })
+
+-- 
+-- vim.g.UltiSnipsExpandTrigger = "<C-j>"
+-- vim.g.UltiSnipsJumpForwardTrigger = "<C-j>"
+-- vim.g.UltiSnipsJumpBackwardTrigger = ':'
 
 -- Using ufo provider need remap `zR` and `zM`. If Neovim is 0.6.1, remap yourself
 -- vim.keymap.set('n', 'zR', require('ufo').openAllFolds)
@@ -28,7 +47,15 @@ vim.keymap.set("n", "<leader>m", ":ToggleOnly<CR>", { silent = true, noremap = t
 -- Run current file
 vim.keymap.set("n", "<leader>ru", ":source %<CR>", { silent = true, noremap = true })
 
+vim.keymap.set("n", "<leader>i", function()
+  require("nvterm.terminal").toggle "float"
+end)
 
+-- Tabs
+vim.keymap.set("n", "<leader>tn", "<C-\\><C-n>:tabnew<CR>", { silent = true, noremap = true })
+vim.keymap.set("n", "<leader>tx", "<C-\\><C-n>:tabclose<CR>", { silent = true, noremap = true })
+vim.keymap.set("n", "<leader>tj", "<C-\\><C-n>:tabnext<CR>", { silent = true, noremap = true })
+vim.keymap.set("n", "<leader>tk", "<C-\\><C-n>:tabprev<CR>", { silent = true, noremap = true })
 
 -- vim.api.nvim_exec(
 --   [[
@@ -50,6 +77,7 @@ vim.api.nvim_exec(
 ]],
   false
 )
+
 -- vim.keymap.set("n", "<leader>ln", "0vg_dIconsole.log('<Esc>pA >> ', <Esc>pA);<Esc>")
 
 -- vim.keymap.set("v", "<leader>l", '"ly<Esc>oconsole.log("<Esc>"lpA >> ", <Esc>"lpA);<Esc>', { silent = true, noremap = true });

@@ -1,5 +1,76 @@
 local plugins = {
   {
+    "dccsillag/magma-nvim",
+    lazy = false,
+    init = function()
+      print("fuck you")
+      vim.cmd("source " .. vim.fn.fnamemodify(debug.getinfo(1, "S").source:sub(2), ":h") .. "/magma.vim")
+    end,
+  },
+  {
+    "untitled-ai/jupyter_ascending.vim",
+    lazy = false,
+  },
+  {
+    "mattn/emmet-vim",
+    lazy = false,
+  },
+  {
+    "lepture/vim-jinja",
+    lazy = false,
+  },
+  {
+    "kaarmu/typst.vim",
+    ft = "typst",
+    commit = "e4d0721",
+    lazy = false,
+  },
+  {
+    "goerz/jupytext.vim",
+    lazy = false,
+  },
+  {
+    lazy = false,
+    "SirVer/ultisnips",
+  },
+  {
+    lazy = false,
+    "MisanthropicBit/vim-numbers",
+  },
+  {
+    lazy = false,
+    "lervag/vimtex",
+  },
+  {
+    lazy = false,
+    "luochen1990/rainbow",
+  },
+  {
+    lazy = false,
+    "machakann/vim-highlightedyank",
+  },
+  {
+    lazy = false,
+    "nvim-neorg/neorg",
+    build = ":Neorg sync-parsers",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    config = function()
+      require("neorg").setup {
+        load = {
+          ["core.defaults"] = {}, -- Loads default behaviour
+          ["core.concealer"] = {}, -- Adds pretty icons to your documents
+          ["core.dirman"] = { -- Manages Neorg workspaces
+            config = {
+              workspaces = {
+                notes = "~/notes",
+              },
+            },
+          },
+        },
+      }
+    end,
+  },
+  {
     "ThePrimeagen/refactoring.nvim",
     dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" },
     lazy = false,
@@ -92,9 +163,9 @@ local plugins = {
           show_url = true,
           -- show the generated curl command in case you want to launch
           -- the same request via the terminal (can be verbose)
-          show_curl_command = false,
+          show_curl_command = true,
           show_http_info = true,
-          show_headers = false,
+          show_headers = true,
           -- executables or functions for formatting response body [optional]
           -- set them to false if you want to disable them
           formatters = {
@@ -310,6 +381,9 @@ local plugins = {
   {
     "machakann/vim-sandwich",
     lazy = false,
+    config = function()
+      vim.cmd "source  ~/.config/nvim/sandwich.vim"
+    end,
   },
   {
     "michaeljsmith/vim-indent-object",
@@ -326,10 +400,10 @@ local plugins = {
     "williamboman/mason-lspconfig.nvim",
     lazy = false,
   },
-  {
-    "Matt-A-Bennett/vim-surround-funk",
-    lazy = false,
-  },
+  -- {
+  --   "Matt-A-Bennett/vim-surround-funk",
+  --   lazy = false,
+  -- },
   {
     "williamboman/mason.nvim",
     opt = {
@@ -338,10 +412,10 @@ local plugins = {
       },
     },
   },
-  {
-    "rust-lang/rust.vim",
-    ft = "rust",
-  },
+  -- {
+  --   "rust-lang/rust.vim",
+  --   ft = "rust",
+  -- },
   {
     "jose-elias-alvarez/null-ls.nvim",
     lazy = false,
@@ -352,6 +426,12 @@ local plugins = {
         sources = {
           null_ls.builtins.formatting.stylua,
           null_ls.builtins.formatting.prettier,
+          null_ls.builtins.formatting.rustfmt.with {
+            extra_args = { "--edition=2018" },
+          },
+          -- null_ls.builtins.diagnostics.mypy,
+          -- null_ls.builtins.diagnostics.ruff,
+          null_ls.builtins.formatting.black,
         },
         -- on_attach = function(client, bufnr)
         --   vim [[autocmd BufWritePost * lua print("hello!")]]

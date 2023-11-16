@@ -1,0 +1,64 @@
+# Function
+# snippet fn "function" bA
+# function ${1:function_name}(${2}) {
+# 	${0:${VISUAL}}
+# }
+
+# endsnippet
+# Asynchronous Function
+snippet afn "async function" wA
+async (${1}) => { ${0:${VISUAL}} }
+endsnippet
+
+# Anonymous Function
+snippet fn "function" wA
+(${1}) => { ${0:${VISUAL}} }
+endsnippet
+
+snippet let "var dec" bA
+const ${1} = ${2};
+endsnippet
+
+snippet if "If" bA
+if (${1}) {
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet eif "If else" bA
+if (${1}) {
+	${2:${VISUAL}}
+} else {
+	${0}
+}
+endsnippet
+
+snippet fd "Field def" bA
+${1:field}: ${2:Type},
+endsnippet
+
+snippet fun "Function" 
+${1:funcName}(${2:args}) {
+	${0:${VISUAL}}
+}
+endsnippet
+
+snippet exp "Export default" bA
+export default ${1};
+endsnippet
+
+snippet imp "Import" bA
+import ${1} from '${2}';
+endsnippet
+
+snippet d; "Debug log" bA
+console.log("$1", ${1:object});
+endsnippet
+
+# # Anonymous Function assigned to variable
+# snippet flet
+# const ${1:function_name} = (${2}) => {
+# 	${0:${VISUAL}}
+# };
+# endsnippet
+

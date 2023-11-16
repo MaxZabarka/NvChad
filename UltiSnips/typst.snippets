@@ -1,0 +1,38 @@
+snippet // "Fraction" iA
+($1)/($2)$0
+endsnippet
+
+
+snippet mk "Math" wA
+$${1}$`!p
+if t[2] and t[2][0] not in [',', '.', '?', '-', ' ']:
+    snip.rv = ' '
+else:
+    snip.rv = ''
+`$2
+endsnippet
+
+snippet dm "Math" wA
+$ $1 $
+$0
+endsnippet
+
+snippet sr "^2" iA
+^2
+endsnippet
+
+snippet cb "^3" iA
+^3
+endsnippet
+
+snippet td "superscript" iA
+^($1)$0
+endsnippet
+
+snippet ro "square root" wA
+sqrt($1)$0
+endsnippet
+
+snippet ll "log" wA
+log_${1:base} (${2:argument})$0
+endsnippet
