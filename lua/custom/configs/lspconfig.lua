@@ -10,6 +10,10 @@ local servers = {
   "texlab",
   -- "jedi_language_server"
   "pyright",
+  "gleam",
+  "typst_lsp",
+  "svelte",
+  "tailwindcss"
   -- "ltex-ls"
 }
 
@@ -25,6 +29,14 @@ for _, lsp in ipairs(servers) do
     capabilities = capabilities,
   }
 end
+
+require'lspconfig'.typst_lsp.setup{
+	settings = {
+		exportPdf = "onType" -- Choose onType, onSave or never.
+        -- serverPath = "" -- Normally, there is no need to uncomment it.
+	}
+}
+
 require("rust-tools").setup { server = { on_attach = on_attach } }
 -- lspconfig.on_attach(function(client, bufnr)
 --   print "attach"

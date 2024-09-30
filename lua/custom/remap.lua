@@ -1,3 +1,7 @@
+
+-- Obsidian
+vim.keymap.set("n", "<leader>fo", "<cmd>ObsidianQuickSwitch<CR>", { silent = true, noremap = true })
+
 vim.keymap.set("n", "<leader>tr", "<cmd>TroubleToggle<cr>", { silent = true, noremap = true })
 vim.keymap.set("n", "<leader>s", "<cmd>Telescope lsp_document_symbols<cr>")
 
@@ -19,13 +23,36 @@ vim.g.UltiSnipsJumpForwardTrigger = "<C-r>"
 
 -- Magma
 -- vim.api.nvim_set_keymap('n', '<Leader>r', ':MagmaEvaluateOperator<CR>', { noremap = true, silent = true, expr = true })
--- vim.api.nvim_set_keymap('n', '<Leader>rr', ':MagmaEvaluateLine<CR>', { noremap = true, silent = true })
--- vim.api.nvim_set_keymap('x', '<Leader>r', ':<C-u>MagmaEvaluateVisual<CR>', { noremap = true, silent = true })
--- vim.api.nvim_set_keymap('n', '<Leader>rc', ':MagmaReevaluateCell<CR>', { noremap = true, silent = true })
--- vim.api.nvim_set_keymap('n', '<Leader>rd', ':MagmaDelete<CR>', { noremap = true, silent = true })
--- vim.api.nvim_set_keymap('n', '<Leader>ro', ':MagmaShowOutput<CR>', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('n', '<Leader>r', ':MoltenEvaluateLine<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('x', '<Leader>r', ':<C-u>MoltenEvaluateVisual<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>r', ':MoltenReevaluateCell<CR>', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('n', '<Leader>rd', ':MoltenDelete<CR>', { noremap = true, silent = true })
+-- vim.api.nvim_set_keymap('n', '<Leader>ro', ':MoltenShowOutput<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<Leader>rs', ':MoltenInit python3<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<Leader>rj", ":MoltenNext<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<Leader>rk", ":MoltenPrev<CR>", { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<Leader>rd", ":MoltenInterrupt<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<Leader>ro", ":noautocmd MoltenEnterOutput<CR>",
+    { silent = true, noremap = true, desc = "show/enter output" })
+vim.api.nvim_set_keymap('n', '<leader>f', '<cmd>lua vim.diagnostic.open_float(nil, { border="single"})<CR>', { noremap = true, silent = true })
 
--- 
+
+local group = vim.api.nvim_create_augroup('PythonMolten', { clear = true })
+
+-- Autocmd for saving Python files
+vim.api.nvim_create_autocmd('BufWritePost', {
+    group = group,
+    pattern = '*.py',
+    command = 'silent! MoltenSave'
+})
+
+-- Autocmd for loading Python files
+vim.api.nvim_create_autocmd('BufReadPost', {
+    group = group,
+    pattern = '*.py',
+    command = 'silent! MoltenLoad'
+})
+
 -- vim.g.UltiSnipsExpandTrigger = "<C-j>"
 -- vim.g.UltiSnipsJumpForwardTrigger = "<C-j>"
 -- vim.g.UltiSnipsJumpBackwardTrigger = ':'
@@ -57,83 +84,16 @@ vim.keymap.set("n", "<leader>tx", "<C-\\><C-n>:tabclose<CR>", { silent = true, n
 vim.keymap.set("n", "<leader>tj", "<C-\\><C-n>:tabnext<CR>", { silent = true, noremap = true })
 vim.keymap.set("n", "<leader>tk", "<C-\\><C-n>:tabprev<CR>", { silent = true, noremap = true })
 
--- vim.api.nvim_exec(
---   [[
---   augroup filetype_lua
---     autocmd!
---     autocmd FileType typescript,typescriptreact,javascript,javascriptreact nnoremap <leader>cl oconsole.log("<Esc>pA >> ", <Esc>pA);<Esc>
---     autocmd FileType rust nnoremap <leader>cl oprintln!("<Esc>pA >> {:#?}", <Esc>pA);<Esc>
---   augroup END
--- ]],
---   false
+-- vim.api.nvim_create_user_command(
+--   'TypstOpen',
+--   function()
+--     local filepath = vim.api.nvim_buf_get_name(0)  -- Get the current buffer's file path
+--     if filepath:match('%.typ$') then                -- Check if the file has a .typ extension
+--       vim.cmd('!itypst ' .. filepath)               -- Run itypst with the file path
+--     else
+--       print('Not a .typ file')                      -- Print a message if the file is not a .typ
+--     end
+--   end,
+--   {}
 -- )
-vim.api.nvim_exec(
-  [[
-  augroup filetype_lua
-    autocmd!
-      autocmd FileType typescript,typescriptreact,javascript,javascriptreact nnoremap <leader>ln ^vg_dIconsole.log('<Esc>pA >> ', <Esc>pA);<Esc>
-    autocmd FileType rust nnoremap <leader>ln ^vg_dIprintln!("<Esc>pA >> {:#?}", <Esc>pA);<Esc>
-  augroup END
-]],
-  false
-)
-
--- vim.keymap.set("n", "<leader>ln", "0vg_dIconsole.log('<Esc>pA >> ', <Esc>pA);<Esc>")
-
--- vim.keymap.set("v", "<leader>l", '"ly<Esc>oconsole.log("<Esc>"lpA >> ", <Esc>"lpA);<Esc>', { silent = true, noremap = true });
--- vim.keymap.set("v", "<leader>l", '"ly<Esc>oprintln!("<Esc>"lpA >> {:#?}", <Esc>"lpA);<Esc>', { silent = true, noremap = true });
-
--- vim.keymap.set("v", "<leader>l", '"ly<Esc>oprint!("<Esc>"lpA >> ", <Esc>"lpA);<Esc>', { silent = true, noremap = true });
--- print!("leader", leader);
--- local function lines_from(file)
--- console.log("local", local);
--- console.log("function", function);
---   local lines = {}
---   for line in io.lines(file) do
---     lines[#lines + 1] = line
---   end
---   return lines
--- end
--- local testtable = (lines_from "/home/max/.config/nvim/lua/custom/test")
--- P(testtable)
-
--- result = vim.lsp.util.open_floating_preview({"# test, **sdf**, *sdfdf*, # sdfd"}, "markdown", { border = "rounded" })
-
--- local bufnr = vim.api.nvim_get_current_buf() -- get buffer number
--- vim.api.nvim_win_set_option(0, "foldmethod", "indent") -- set buffer-local option
 --
--- local popup = require "plenary.popup"
--- local function create_default_popup()
---   local win_id = popup.create({ "menu item 1", "menu item 2", "menu item 3" }, {})
---   print(win_id)
--- end
--- create_default_popup()
-
--- vim.keymap.set("n", "<F4>", "<cmd>lua require('dapui').toggle()<CR>")
--- vim.keymap.set("n", "<F5>", "<cmd>lua require('dap').toggle_breakpoint()<CR>")
--- vim.keymap.set("n", "<F9>", "<cmd>lua require('dap').continue()<CR>")
---
--- vim.keymap.set("n", "<F1>", "<cmd>lua require('dap').step_over()<CR>")
--- vim.keymap.set("n", "<F2>", "<cmd>lua require('dap').step_into()<CR>")
--- vim.keymap.set("n", "<F3>", "<cmd>lua require('dap').step_out()<CR>")
---
--- vim.keymap.set("n", "<Leader>dsc", "<cmd>lua require('dap').continue()<CR>")
--- vim.keymap.set("n", "<Leader>dsv", "<cmd>lua require('dap').step_over()<CR>")
--- vim.keymap.set("n", "<Leader>dsi", "<cmd>lua require('dap').step_into()<CR>")
--- vim.keymap.set("n", "<Leader>dso", "<cmd>lua require('dap').step_out()<CR>")
---
--- vim.keymap.set("n", "<Leader>dhh", "<cmd>lua require('dap.ui.variables').hover()<CR>")
--- vim.keymap.set("v", "<Leader>dhv", "<cmd>lua require('dap.ui.variables').visual_hover()<CR>")
---
--- vim.keymap.set("n", "<Leader>duh", "<cmd>lua require('dap.ui.widgets').hover()<CR>")
--- vim.keymap.set("n", "<Leader>duf", "<cmd>lua local widgets=require('dap.ui.widgets');widgets.centered_float(widgets.scopes)<CR>")
---
--- vim.keymap.set("n", "<Leader>dro", "<cmd>lua require('dap').repl.open()<CR>")
--- vim.keymap.set("n", "<Leader>drl", "<cmd>lua require('dap').repl.run_last()<CR>")
---
--- vim.keymap.set("n", "<Leader>dbc", "<cmd>lua require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>")
--- vim.keymap.set("n", "<Leader>dbm", "<cmd>lua require('dap').set_breakpoint({ nil, nil, vim.fn.input('Log point message: ') })<CR>")
--- vim.keymap.set("n", "<Leader>dbt", "<cmd>lua require('dap').toggle_breakpoint()<CR>")
---
--- vim.keymap.set("n", "<Leader>dc", "<cmd>lua require('dap.ui.variables').scopes()<CR>")
--- vim.keymap.set("n", "<Leader>di", "<cmd>lua require('dapui').toggle()<CR>")

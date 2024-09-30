@@ -44,11 +44,11 @@ pub fn new(${2}) -> ${1:Self} {
 }
 endsnippet
 
-snippet main "Main function" bA
-fn main() {
-	${0}
-}
-endsnippet
+# snippet main "Main function" bA
+# fn main() {
+# 	${0}
+# }
+# endsnippet
 
 snippet der "#[derive(..)]" bA
 #[derive(${1:Debug})]
@@ -59,9 +59,10 @@ format!("${1}{${2}}", ${3})
 endsnippet
 
 # Variable def
-snippet let "let variable declaration with type inference" bA
-let ${1} = ${2};
-endsnippet
+# snippet let "let variable declaration with type inference" bA
+# let ${1} = ${2};
+# endsnippet
+
 snippet tlet "let variable declaration with explicit type annotation" bA
 let ${1}: ${2} = ${3};
 endsnippet
@@ -113,17 +114,17 @@ Result<${1:()}>
 endsnippet
 
 snippet if "If" bA
-	if ${1} {
-		${0:${VISUAL}}
-	}
+if ${1} {
+	${0:${VISUAL}}
+}
 endsnippet
 
 snippet eif "If else" bA
-	if ${1} {
-		${2:${VISUAL}}
-	} else {
-		${0}
-	}
+if ${1} {
+	${2:${VISUAL}}
+} else {
+	${0}
+}
 endsnippet
 
 snippet lif "if let (...)" bA
@@ -150,4 +151,6 @@ snippet oke "ok_or with anyhow!" wA
 .ok_or(anyhow!("${1}"))?
 endsnippet
 
-
+snippet instr "instrument" wA
+#[instrument(err, ret, skip_all, fields(${1:a} = %$1, ${2:b} = %$2, ${3:c} = %$3))]
+endsnippet

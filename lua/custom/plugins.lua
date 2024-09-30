@@ -1,16 +1,189 @@
 local plugins = {
   {
-    "dccsillag/magma-nvim",
+    "epwalsh/obsidian.nvim",
+    version = "*",
     lazy = false,
+    ft = "markdown",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    opts = {
+      templates = {
+        folder = "templates",
+        date_format = "%Y-%m-%d",
+        time_format = "%H:%M",
+        -- A map for custom variables, the key should be the variable and the value a function
+        substitutions = {},
+      },
+      mappings = {
+        -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
+        ["gd"] = {
+          action = function()
+            return require("obsidian").util.gf_passthrough()
+          end,
+          opts = { noremap = false, expr = true, buffer = true },
+        },
+        -- Toggle check-boxes.
+        ["<leader>ch"] = {
+          action = function()
+            return require("obsidian").util.toggle_checkbox()
+          end,
+          opts = { buffer = true },
+        },
+        -- ["<leader>fo"] = {
+        --   action = function()
+        --     -- vim.cmd.normal [[ObsidianQuickSwitch]]
+        --     vim.cmd("ObsidianQuickSwitch")
+        --   end,
+        -- }
+      },
+    note_path_func = function(spec)
+      print("SPEC", vim.inspect(spec))
+    -- This is equivalent to the default behavior.
+    local path = spec.dir / tostring(spec.id)
+    return path:with_suffix(".md")
+  end,
+  note_id_func = function(title)
+    -- Create note IDs in a Zettelkasten format with a timestamp and a suffix.
+    -- In this case a note with the title 'My new note' will be given an ID that looks
+    -- like '1657296016-my-new-note', and therefore the file name '1657296016-my-new-note.md'
+    print("TITLE", title)
+    return title
+    -- local suffix = ""
+    -- if title ~= nil then
+    --   -- If title is given, transform it into valid file name.
+    --   suffix = title:gsub(" ", "-"):gsub("[^A-Za-z0-9-]", ""):lower()
+    -- else
+    --   -- If title is nil, just add 4 random uppercase letters to the suffix.
+    --   for _ = 1, 4 do
+    --     suffix = suffix .. string.char(math.random(65, 90))
+    --   end
+    -- end
+    -- return tostring(os.time()) .. "-" .. suffix
+  end,
+      workspaces = {
+        {
+          name = "notes",
+          path = "~/Documents/obsidian",
+        }
+      },
+    },
+  },
+  {
+  'kristijanhusak/vim-dadbod-ui',
+    lazy = false,
+  dependencies = {
+    { 'tpope/vim-dadbod', lazy = true },
+    { 'kristijanhusak/vim-dadbod-completion', ft = { 'sql', 'mysql', 'plsql' }, lazy = true }, -- Optional
+  },
+  cmd = {
+    'DBUI',
+    'DBUIToggle',
+    'DBUIAddConnection',
+    'DBUIFindBuffer',
+  },
+  init = function()
+    -- Your DBUI configuration
+    vim.g.db_ui_use_nerd_fonts = 1
+  end,
+  },
+  {
+    "CopilotC-Nvim/CopilotChat.nvim",
+    branch = "canary",
+    dependencies = {
+      { "github/copilot.vim" },
+      { "nvim-lua/plenary.nvim" }, 
+    },
+    lazy = false,
+    opts =  {
+        window = {
+          layout = 'float',
+          relative = 'cursor',
+          width = 1,
+          height = 0.4,
+          row = 1
+        }
+    },
+    keys = {
+      {
+    "<leader>ccq",
+    function()
+      local input = vim.fn.input("Quick Chat: ")
+      if input ~= "" then
+        require("CopilotChat").ask(input, { selection = require("CopilotChat.select").buffer })
+      end
+    end,
+    desc = "CopilotChat - Quick chat",
+      }
+  },
     init = function()
-      print("fuck you")
-      vim.cmd("source " .. vim.fn.fnamemodify(debug.getinfo(1, "S").source:sub(2), ":h") .. "/magma.vim")
+      require("CopilotChat").setup()
     end,
   },
   {
-    "untitled-ai/jupyter_ascending.vim",
-    lazy = false,
+    "PeterRincker/vim-argumentative",
+    lazy = false
   },
+  {
+    "gleam-lang/gleam.vim",
+    lazy = false
+  },
+  {
+    "stevearc/oil.nvim",
+    lazy = false,
+    init = function()
+      require("oil").setup()
+    end,
+  },
+    {
+        -- see the image.nvim readme for more information about configuring this plugin
+        "3rd/image.nvim",
+        opts = {
+            backend = "kitty", -- whatever backend you would like to use
+            max_width = 100,
+            max_height = 50,
+            max_height_window_percentage = math.huge,
+            max_width_window_percentage = math.huge,
+            window_overlap_clear_enabled = true, -- toggles images when windows are overlapped
+            window_overlap_clear_ft_ignore = { "cmp_menu", "cmp_docs", "" },
+        },
+    },
+  -- {
+  --   "dccsillag/magma-nvim",
+  --   lazy = false,
+  --   build = function()
+  --     vim.cmd('UpdateRemotePlugins')
+  --   end,
+  --   init = function()
+  --     vim.g.magma_image_provider = "kitty"
+  --     vim.cmd('runtime plugin/rplugin.vim')
+  --     vim.g.magma_automatically_open_output = false
+  --     vim.g.magma_image_provider = "kitty"
+  --
+  --     vim.cmd("highlight Cell ctermbg=grey guibg=#313247")
+  --     vim.g.magma_cell_highlight_group = "Cell"
+  --
+  --   end,
+  -- },
+
+  {
+    "benlubas/molten-nvim",
+    lazy = false,
+    build = function()
+      vim.cmd('UpdateRemotePlugins')
+    end,
+    init = function()
+      vim.cmd('runtime plugin/rplugin.vim')
+      -- vim.cmd("highlight Cell ctermbg=grey guibg=#313247")
+      vim.g.molten_image_provider = "image.nvim"
+      vim.api.nvim_set_hl(0, "MoltenCell", { bg = "#313247" })
+
+    end,
+  },
+  -- {
+  --   "untitled-ai/jupyter_ascending.vim",
+  --   lazy = false,
+  -- },
   {
     "mattn/emmet-vim",
     lazy = false,
@@ -338,6 +511,7 @@ local plugins = {
     init = function()
       vim.g.copilot_assume_mapped = true
       vim.g.copilot_filetypes = { dapui_watches = false }
+      vim.cmd "source  ~/.config/nvim/copilot.vim"
     end,
     lazy = false,
   },
@@ -425,7 +599,9 @@ local plugins = {
       null_ls.setup {
         sources = {
           null_ls.builtins.formatting.stylua,
-          null_ls.builtins.formatting.prettier,
+          null_ls.builtins.formatting.prettier.with{
+            filetypes = { "html", "json", "svelte", "markdown", "css", "javascript", "javascriptreact" },
+          },
           null_ls.builtins.formatting.rustfmt.with {
             extra_args = { "--edition=2018" },
           },
