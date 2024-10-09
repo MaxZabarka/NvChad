@@ -38,11 +38,12 @@ pub async fn ${1:function_name}(${2})${3/..*/ -> /}${3} {
 	${VISUAL}${0}
 }
 endsnippet
-snippet new "Constructor function" bA
-pub fn new(${2}) -> ${1:Self} {
-	$1 { ${3} }
-}
-endsnippet
+
+# snippet new "Constructor function" bA
+# pub fn new(${2}) -> ${1:Self} {
+# 	$1 { ${3} }
+# }
+# endsnippet
 
 # snippet main "Main function" bA
 # fn main() {
@@ -54,9 +55,9 @@ snippet der "#[derive(..)]" bA
 #[derive(${1:Debug})]
 endsnippet
 
-snippet fmt "format!(..)" w
-format!("${1}{${2}}", ${3})
-endsnippet
+# snippet fmt "format!(..)" w
+# format!("${1}{${2}}", ${3})
+# endsnippet
 
 # Variable def
 # snippet let "let variable declaration with type inference" bA
@@ -70,22 +71,23 @@ endsnippet
 snippet mlet "let mut variable declaration with type inference" bA
 let mut ${1} = ${2};
 endsnippet
+
 snippet mtlet "let mut variable declaration with explicit type annotation" bA
 let mut ${1}: ${2} = ${3};
 endsnippet
 
-snippet for "for .. in .." bA
-for ${1:i} in ${2} {
-	${VISUAL}${0}
-}
-endsnippet
+# snippet for "for .. in .." bA
+# for ${1:i} in ${2} {
+# 	${VISUAL}${0}
+# }
+# endsnippet
 
 
-snippet st "Struct" bA
-struct ${1:`!p snip.rv = snip.basename.title() or "Name"`} {
-	${VISUAL}${0}
-}
-endsnippet
+# snippet st "Struct" bA
+# struct ${1:`!p snip.rv = snip.basename.title() or "Name"`} {
+# 	${VISUAL}${0}
+# }
+# endsnippet
 
 snippet pst "Pub struct" bA
 struct ${1:`!p snip.rv = snip.basename.title() or "Name"`} {
@@ -93,39 +95,39 @@ struct ${1:`!p snip.rv = snip.basename.title() or "Name"`} {
 }
 endsnippet
 
-snippet en "Enum" bA
-enum ${1:`!p snip.rv = snip.basename.title() or "Name"`} {
-	${VISUAL}${0}
-}
-endsnippet
+# snippet en "Enum" bA
+# enum ${1:`!p snip.rv = snip.basename.title() or "Name"`} {
+# 	${VISUAL}${0}
+# }
+# endsnippet
 
-snippet pen "Pub enum" bA
-pub enum ${1:`!p snip.rv = snip.basename.title() or "Name"`} {
-	${VISUAL}${0}
-}
-endsnippet
+# snippet pen "Pub enum" bA
+# pub enum ${1:`!p snip.rv = snip.basename.title() or "Name"`} {
+# 	${VISUAL}${0}
+# }
+# endsnippet
 
-snippet opt "Option<T>" wA
-Option<${1:i32}>
-endsnippet
+# snippet opt "Option<T>" wA
+# Option<${1:i32}>
+# endsnippet
 
-snippet res "Result<T>" wA
-Result<${1:()}>
-endsnippet
+# snippet res "Result<T>" wA
+# Result<${1:()}>
+# endsnippet
 
-snippet if "If" bA
-if ${1} {
-	${0:${VISUAL}}
-}
-endsnippet
+# snippet if "If" bA
+# if ${1} {
+# 	${0:${VISUAL}}
+# }
+# endsnippet
 
-snippet eif "If else" bA
-if ${1} {
-	${2:${VISUAL}}
-} else {
-	${0}
-}
-endsnippet
+# snippet eif "If else" bA
+# if ${1} {
+# 	${2:${VISUAL}}
+# } else {
+# 	${0}
+# }
+# endsnippet
 
 snippet lif "if let (...)" bA
 if let ${1:Some($2)} = $3 {
@@ -143,13 +145,13 @@ ${1:move }|$2| {
 }
 endsnippet
 
-snippet use "use ...;" 
-use ${1:std::$2};
-endsnippet
+# snippet use "use ...;" 
+# use ${1:std::$2};
+# endsnippet
 
-snippet oke "ok_or with anyhow!" wA
-.ok_or(anyhow!("${1}"))?
-endsnippet
+# snippet oke "ok_or with anyhow!" wA
+# .ok_or(anyhow!("${1}"))?
+# endsnippet
 
 snippet instr "instrument" wA
 #[instrument(err, ret, skip_all, fields(${1:a} = %$1, ${2:b} = %$2, ${3:c} = %$3))]

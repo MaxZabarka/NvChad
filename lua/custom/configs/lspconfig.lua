@@ -13,7 +13,8 @@ local servers = {
   "gleam",
   "typst_lsp",
   "svelte",
-  "tailwindcss"
+  "tailwindcss",
+  "sqlls"
   -- "ltex-ls"
 }
 
@@ -27,6 +28,7 @@ for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     on_attach = on_attach,
     capabilities = capabilities,
+    root_dir = lspconfig.util.root_pattern("Cargo.toml", "package.json", "pyproject.toml", ".git"),
   }
 end
 

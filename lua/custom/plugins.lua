@@ -1,4 +1,14 @@
 local plugins = {
+{
+  "NeogitOrg/neogit",
+  dependencies = {
+    "nvim-lua/plenary.nvim",         -- required
+    "sindrets/diffview.nvim",        -- optional - Diff integration
+    "nvim-telescope/telescope.nvim", -- optional
+  },
+  config = true,
+    lazy = false
+},
   {
     "epwalsh/obsidian.nvim",
     version = "*",
@@ -247,6 +257,18 @@ local plugins = {
     "ThePrimeagen/refactoring.nvim",
     dependencies = { "nvim-lua/plenary.nvim", "nvim-treesitter/nvim-treesitter" },
     lazy = false,
+    opt = {
+      highlight = {
+        enable = true, -- false will disable the whole extension
+        disable =  function(lang)
+          print(lang)
+      local buf_name = vim.fn.expand("%")
+      if string.find(buf_name, "treesitter") then
+        return true
+      end
+    end
+      },
+    },
     config = function()
       require("refactoring").setup()
     end,
