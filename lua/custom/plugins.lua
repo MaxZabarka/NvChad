@@ -7,7 +7,8 @@ local plugins = {
     "nvim-telescope/telescope.nvim", -- optional
   },
   config = true,
-    lazy = false
+    cmd = "Neogit", 
+    lazy = true
 },
   {
     "epwalsh/obsidian.nvim",
